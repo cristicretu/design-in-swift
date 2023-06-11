@@ -34,7 +34,7 @@ struct Coordinates: View {
             }
             
             // Agreement
-            Text("Point your phone directly at someone to be matched with them. Unacceptable behavior is not tolerated, and may lead to a ban.")
+            Text("Point your phone directly at someone to be matched with them.\n Unacceptable behavior is not tolerated, and may lead to a ban.")
                 .rounded(size: 12)
                 .foregroundColor(Color.white.opacity(0.4))
                 .multilineTextAlignment(.center)

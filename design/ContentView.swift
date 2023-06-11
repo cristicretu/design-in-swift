@@ -35,16 +35,18 @@ struct Blur: UIViewRepresentable {
 }
 
 struct ContentView: View {
-    let direction = "111° E"
     let coordinates = "47.3769° N, 8.5417° E"
     @ObservedObject var compassHeading = CompassHeading()
     
+    @State var compassState: String = "111° E"
+    @State var animate = false
+
     var body: some View {
         ZStack {
             Text("Scanning for gems")
-                .rounded(size: 28.0, weight: .semibold)
+                .rounded(size: 24.0, weight: .semibold)
                 .foregroundColor(.white.opacity(0.9))
-                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 8)
+                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 10)
             
             ZStack {
                 // white blur
@@ -82,10 +84,45 @@ struct ContentView: View {
                             Circle()
                                 .stroke(Color.gray.opacity(0.03), lineWidth: 3)
                         )
-                Compass()
+                
+                
+                // blob
+                
+                Circle()
+                    .fill(LinearGradient(
+                        gradient: Gradient(colors: [.indigo, .purple, .blue, .indigo, .blue]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ))
+                    .blur(radius: 40)
+                    .frame(width: 120)
+                
+                Circle()
+                    .trim(from: 0.5, to: 1)
+
+                    .fill(LinearGradient(
+                        gradient: Gradient(colors: [.indigo, .white]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ))
+                    .blur(radius: 20)
+                    .frame(width: 100)
+                    .rotationEffect(Angle(degrees: -Double(Int(self.compassHeading.degrees))))
+                    .scaleEffect(self.animate ? 1 : 0.7)
+                    .opacity(self.animate ? 1 : 0.6)
+                    .onAppear { self.animate.toggle() }
+                    .animation(Animation.easeInOut(duration: 1.5).repeatForever(autoreverses: true))
+
+                
+                Compass(compasDegrees: self.compassHeading.degrees)
             }
-            .scaleEffect(1.4)
+            .rotationEffect(Angle(degrees: Double(Int(self.compassHeading.degrees))))
+            .scaleEffect(1.5)
+            .animation(Animation.spring(), value: self.compassState)
             .position(x: UIScreen.main.bounds.width / 2,y: UIScreen.main.bounds.height / 1.8)
+            .onReceive(compassHeading.objectWillChange) { _ in
+                updateCompassState()
+            }
             
             
             ZStack {
@@ -102,26 +139,39 @@ struct ContentView: View {
                         startPoint: .bottom, endPoint: .top
                         
                     ))
-                Coordinates(direction: direction, coordinates: coordinates)
+                Coordinates(direction: compassState, coordinates: coordinates)
             }
             .position(x: UIScreen.main.bounds.width / 2,y: UIScreen.main.bounds.height / 1.25)
             
         }
-//        .overlay(
-//            LinearGradient(
-//                gradient:
-//                    Gradient(
-//                        stops: [.init(color: .black, location: -1),
-//                                .init(color: .clear, location: 0.5),
-//                                .init(color: .black, location: 2)
-//                        ]),
-//                startPoint: .leading, endPoint: .trailing
-//
-//            )
-//        )
         .ignoresSafeArea()
         .preferredColorScheme(.dark)
         .statusBar(hidden: true)
+    }
+    
+    func updateCompassState() {
+        let direction: Double = abs(compassHeading.degrees)
+        var letter: String = ""
+
+        if direction >= 337.5 || direction < 22.5 {
+            letter = "N"
+        } else if direction >= 22.5 && direction < 67.5 {
+            letter = "NE"
+        } else if direction >= 67.5 && direction < 112.5 {
+            letter = "E"
+        } else if direction >= 112.5 && direction < 157.5 {
+            letter = "SE"
+        } else if direction >= 157.5 && direction < 202.5 {
+            letter = "S"
+        } else if direction >= 202.5 && direction < 247.5 {
+            letter = "SW"
+        } else if direction >= 247.5 && direction < 292.5 {
+            letter = "W"
+        } else {
+            letter = "NW"
+        }
+
+        compassState = "\(Int(direction))° \(letter)"
     }
 }
 

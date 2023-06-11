@@ -84,11 +84,12 @@ struct CompassMarkerView: View {
 }
 
 struct Compass: View {
+    let compasDegrees: Double
     
     var body: some View {
         ZStack {
             ForEach(Marker.markers(), id: \.self) { marker in
-                CompassMarkerView(marker: marker, compassDegress: 0)
+                CompassMarkerView(marker: marker, compassDegress: compasDegrees)
             }
         }
     }

@@ -2,7 +2,7 @@
 //  CompassHeading.swift
 //  design
 //
-//  Created by Cristian Cretu on 11.06.2023.
+//  https://github.com/programmingwithswift/Compass/blob/master/Compass/CompassHeading.swift
 //
 
 import Foundation
