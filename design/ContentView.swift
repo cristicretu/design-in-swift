@@ -47,14 +47,46 @@ struct ContentView: View {
                 .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 8)
             
             ZStack {
+                // white blur
                 Circle()
                     .frame(width: 300)
                     .blur(radius: 100)
+                // outer white
+                Circle()
+                    .foregroundColor(.white.opacity(0.05))
+                    .frame(width: 380)
+                // bg
                 Circle()
                     .frame(width: 340)
                     .foregroundColor(.black.opacity(0.94))
+                
+                Circle()
+                    .foregroundColor(.white.opacity(0.04))
+                    .frame(width: 340)
+    
+                Circle()
+                    .foregroundColor(.black.opacity(0.5))
+                    .frame(width: 260)
+                Circle()
+                    .foregroundColor(.clear)
+                    .frame(width: 200)
+                    .overlay(
+                            Circle()
+                                .stroke(Color.gray.opacity(0.03), lineWidth: 3)
+                        )
+                
+                Circle()
+                    .foregroundColor(.white.opacity(0.01))
+                    .frame(width: 70)
+                    .overlay(
+                            Circle()
+                                .stroke(Color.gray.opacity(0.03), lineWidth: 3)
+                        )
                 Compass()
             }
+            .scaleEffect(1.4)
+            .position(x: UIScreen.main.bounds.width / 2,y: UIScreen.main.bounds.height / 1.8)
+            
             
             ZStack {
                 Color(.black)
@@ -75,6 +107,18 @@ struct ContentView: View {
             .position(x: UIScreen.main.bounds.width / 2,y: UIScreen.main.bounds.height / 1.25)
             
         }
+//        .overlay(
+//            LinearGradient(
+//                gradient:
+//                    Gradient(
+//                        stops: [.init(color: .black, location: -1),
+//                                .init(color: .clear, location: 0.5),
+//                                .init(color: .black, location: 2)
+//                        ]),
+//                startPoint: .leading, endPoint: .trailing
+//
+//            )
+//        )
         .ignoresSafeArea()
         .preferredColorScheme(.dark)
         .statusBar(hidden: true)

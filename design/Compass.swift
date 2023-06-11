@@ -61,7 +61,7 @@ struct CompassMarkerView: View {
                 .rounded(weight: .bold)
                 .foregroundColor(self.capsuleColor().opacity(0.7))
                 .rotationEffect(self.textAngle())
-                .padding(.bottom, 80)
+                .padding(.bottom, 70)
         }
         .rotationEffect(Angle(degrees: marker.degrees))
     }
@@ -90,26 +90,6 @@ struct Compass: View {
             ForEach(Marker.markers(), id: \.self) { marker in
                 CompassMarkerView(marker: marker, compassDegress: 0)
             }
-            Circle()
-                .foregroundColor(.white.opacity(0.05))
-                .frame(width: 380)
-            
-            Circle()
-                .foregroundColor(.white.opacity(0.05))
-                .frame(width: 340)
-            
-            Circle()
-                .foregroundColor(.black.opacity(0.1))
-                .frame(width: 260)
-            
-            Circle()
-                .foregroundColor(.white.opacity(0.03))
-                .frame(width: 200)
-            
-            Circle()
-                .foregroundColor(.white.opacity(0.01))
-                .frame(width: 70)
-            
         }
     }
 }

@@ -17,7 +17,7 @@ struct Coordinates: View {
             // Coordinates
             VStack {
                 Text(direction)
-                    .rounded(size: 54, weight: .heavy)
+                    .rounded(size: 48, weight: .semibold)
                     .foregroundColor(.clear)
                     .overlay(
                         LinearGradient(
@@ -25,7 +25,7 @@ struct Coordinates: View {
                             startPoint: .bottomTrailing,
                             endPoint: .topLeading
                         )
-                        .mask(Text(direction).rounded(size: 48, weight: .medium))
+                        .mask(Text(direction).rounded(size: 48, weight: .semibold))
                     )
                 
                 Text(coordinates)
